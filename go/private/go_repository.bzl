@@ -87,6 +87,7 @@ def _go_repository_impl(ctx):
             "--proto", ctx.attr.build_file_proto_mode]
     if ctx.attr.build_file_name:
         cmds += ["--build_file_name", ctx.attr.build_file_name]
+    cmds.extend(ctx.attr.build_extra_args)
     cmds += [ctx.path('')]
     result = env_execute(ctx, cmds)
     if result.return_code:
@@ -118,6 +119,7 @@ go_repository = repository_rule(
         "build_file_generation": attr.string(default="auto", values=["on", "auto", "off"]),
         "build_tags": attr.string_list(),
         "build_file_proto_mode": attr.string(default="default", values=["default", "disable", "legacy"]),
+        "build_extra_args": attr.string_list(),
     },
 )
 """See go/workspace.rst#go-repository for full documentation."""
